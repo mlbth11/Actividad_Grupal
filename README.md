@@ -24,29 +24,40 @@ wget -O "emp-paired-end-sequences/barcodes.fastq.gz" "https://data.qiime2.org/20
 
 # 2. 
 
+```bash
 qiime tools import --type EMPPairedEndSequences --input-path emp-paired-end-sequences --output-path emp-paired-end-sequences.qza
+```
 
 # 3. 
 
+```bash
 qiime demux emp-paired --m-barcodes-file sample-metadata.tsv --m-barcodes-column barcode-sequence --p-rev-comp-mapping-barcodes --i-seqs emp-paired-end-sequences.qza --o-per-sample-sequences demux-full.qza --o-error-correction-details demux-details.qza
+```
 
 # 4. 
 
+```bash
 qiime demux subsample-paired --i-sequences demux-full.qza --p-fraction 0.3 --o-subsampled-sequences demux-subsample.qza
+```
 
 ## Creación de la visualización
 
+```bash
 qiime demux summarize --i-data demux-subsample.qza --o-visualization demux-subsample.qzv
+```
 
 # 5. 
 
+```bash
 qiime tools export --input-path demux-subsample.qzv --output-path ./demux-subsample/
 
 qiime demux filter-samples --i-demux demux-subsample.qza --m-metadata-file ./demux-subsample/per-sample-fastq-counts.tsv --p-where 'CAST([forward sequence count] AS INT) > 100' --o-filtered-demux demux.qza
-
+```
 # 6. 
 
+```bash
 qiime dada2 denoise-paired --i-demultiplexed-seqs demux.qza --p-trim-left-f 13 --p-trim-left-r 13 --p-trunc-len-f 150 --p-trunc-len-r 150 --o-table table.qza --o-representative-sequences rep-seqs.qza --o-denoising-stats denoising-stats.qza
+```
 
 ## Generación de resúmenes correspondientes
 
