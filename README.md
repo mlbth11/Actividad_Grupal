@@ -4,7 +4,9 @@ Github: Crear un repositorio Github. Control de versiones
 ## Nota: En la carpeta "Proyecto1" Se encuentran los resultados de cada etapa del proyecto
 ## Nota2: Para visualizar los archivos .qzv y .qza se utiliza: https://old-view.qiime2.org
 
-# 1. 
+Este tutorial está diseñado para servir para dos propósitos. En primer lugar, ilustra los pasos de procesamiento inicial del análisis de lectura de extremo emparejado, hasta el punto en que los pasos de análisis son idénticos al análisis de lectura de extremo único. Esto incluye los pasos de importación, desmultiplexación y desnado, y da como resultado una tabla de características y las secuencias de características asociadas. En segundo lugar, este pretende ser un ejercicio autoguiado que podría ejecutarse después del tutorial de imágenes en movimiento para obtener más experiencia con QIIME 2. Para este ejercicio, proporcionamos algunas preguntas que se pueden utilizar para guiar su análisis, pero no proporcionamos comandos que le permitan abordar cada una. En su lugar, debes aplicar los comandos que aprendiste en el tutorial de imágenes en movimiento.
+
+# 1. Obtencion de datos
 
 ## Descarga de metadatos
 
@@ -22,19 +24,19 @@ wget -O "emp-paired-end-sequences/reverse.fastq.gz" "https://data.qiime2.org/202
 wget -O "emp-paired-end-sequences/barcodes.fastq.gz" "https://data.qiime2.org/2023.5/tutorials/atacama-soils/10p/barcodes.fastq.gz"
 ```
 
-# 2. 
+# 2. Creacion del artefacto de qiime2
 
 ```bash
 qiime tools import --type EMPPairedEndSequences --input-path emp-paired-end-sequences --output-path emp-paired-end-sequences.qza
 ```
 
-# 3. 
+# 3. Demultiplex de lecturas
 
 ```bash
 qiime demux emp-paired --m-barcodes-file sample-metadata.tsv --m-barcodes-column barcode-sequence --p-rev-comp-mapping-barcodes --i-seqs emp-paired-end-sequences.qza --o-per-sample-sequences demux-full.qza --o-error-correction-details demux-details.qza
 ```
 
-# 4. 
+# 4. Creacion de la submuestra
 
 ```bash
 qiime demux subsample-paired --i-sequences demux-full.qza --p-fraction 0.3 --o-subsampled-sequences demux-subsample.qza
@@ -46,14 +48,14 @@ qiime demux subsample-paired --i-sequences demux-full.qza --p-fraction 0.3 --o-s
 qiime demux summarize --i-data demux-subsample.qza --o-visualization demux-subsample.qzv
 ```
 
-# 5. 
+# 5. Filtracion por numero de lecturas
 
 ```bash
 qiime tools export --input-path demux-subsample.qzv --output-path ./demux-subsample/
 
 qiime demux filter-samples --i-demux demux-subsample.qza --m-metadata-file ./demux-subsample/per-sample-fastq-counts.tsv --p-where 'CAST([forward sequence count] AS INT) > 100' --o-filtered-demux demux.qza
 ```
-# 6. 
+# 6. Control de calidad y "denoising"
 
 ```bash
 qiime dada2 denoise-paired --i-demultiplexed-seqs demux.qza --p-trim-left-f 13 --p-trim-left-r 13 --p-trunc-len-f 150 --p-trunc-len-r 150 --o-table table.qza --o-representative-sequences rep-seqs.qza --o-denoising-stats denoising-stats.qza
@@ -69,13 +71,13 @@ qiime feature-table tabulate-seqs --i-data rep-seqs.qza --o-visualization rep-se
 qiime metadata tabulate --m-input-file denoising-stats.qza --o-visualization denoising-stats.qzv
 ```
 
-# 7. 
+# 7. ⁠Generacion del arbol para el analisis de diversidad filogenetica
 
 ```bash
 qiime phylogeny align-to-tree-mafft-fasttree --i-sequences rep-seqs.qza --o-alignment aligned-rep-seqs.qza --o-masked-alignment masked-aligned-rep-seqs.qza --o-tree unrooted-tree.qza --o-rooted-tree rooted-tree.qza
 ```
 
-# 8. 
+# 8. Calculo de diversidad alfa y beta
 
 ```bash
 qiime diversity core-metrics-phylogenetic --i-phylogeny rooted-tree.qza --i-table table.qza --p-sampling-depth 1103 --m-metadata-file sample-metadata.tsv --output-dir core-metrics-results
@@ -133,7 +135,7 @@ for i in $(cat core-metrics-results/column-names-numeric.txt); do qiime emperor 
 bash core-metrics-results/Beta-diversity/jaccard-emperor.bash # Script con la ejecución de individuales y combinadas
 ```
 
-# 9. 
+# 9. Analisis taxonomico
 
 ## Clasificación taxonómica
 
@@ -149,7 +151,7 @@ qiime metadata tabulate --m-input-file taxonomy.qza --o-visualization taxonomy.q
 qiime taxa barplot --i-table table.qza --i-taxonomy taxonomy.qza --m-metadata-file metadata.tsv --o-visualization taxa-bar-plots.qzv
 ```
 
-# 10. 
+# 10. Analisis diferencial de abundancia microbiana
 
 ## Preparación de la tabla
 
