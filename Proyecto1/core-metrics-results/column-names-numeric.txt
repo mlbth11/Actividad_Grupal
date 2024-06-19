@@ -1,0 +1,6 @@
+elevation 
+extract-concen 
+amplicon-concentration 
+depth 
+percentcover 
+ph 

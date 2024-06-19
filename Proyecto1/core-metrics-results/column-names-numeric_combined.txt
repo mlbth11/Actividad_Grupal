@@ -1,0 +1,58 @@
+
+elevation extract-concen 
+elevation amplicon-concentration 
+elevation depth 
+elevation percentcover 
+elevation ph 
+extract-concen amplicon-concentration 
+extract-concen depth 
+extract-concen percentcover 
+extract-concen ph 
+amplicon-concentration depth 
+amplicon-concentration percentcover 
+amplicon-concentration ph 
+depth percentcover 
+depth ph 
+percentcover ph 
+elevation extract-concen amplicon-concentration 
+elevation extract-concen depth 
+elevation extract-concen percentcover 
+elevation extract-concen ph 
+elevation amplicon-concentration depth 
+elevation amplicon-concentration percentcover 
+elevation amplicon-concentration ph 
+elevation depth percentcover 
+elevation depth ph 
+elevation percentcover ph 
+extract-concen amplicon-concentration depth 
+extract-concen amplicon-concentration percentcover 
+extract-concen amplicon-concentration ph 
+extract-concen depth percentcover 
+extract-concen depth ph 
+extract-concen percentcover ph 
+amplicon-concentration depth percentcover 
+amplicon-concentration depth ph 
+amplicon-concentration percentcover ph 
+depth percentcover ph 
+elevation extract-concen amplicon-concentration depth 
+elevation extract-concen amplicon-concentration percentcover 
+elevation extract-concen amplicon-concentration ph 
+elevation extract-concen depth percentcover 
+elevation extract-concen depth ph 
+elevation extract-concen percentcover ph 
+elevation amplicon-concentration depth percentcover 
+elevation amplicon-concentration depth ph 
+elevation amplicon-concentration percentcover ph 
+elevation depth percentcover ph 
+extract-concen amplicon-concentration depth percentcover 
+extract-concen amplicon-concentration depth ph 
+extract-concen amplicon-concentration percentcover ph 
+extract-concen depth percentcover ph 
+amplicon-concentration depth percentcover ph 
+elevation extract-concen amplicon-concentration depth percentcover 
+elevation extract-concen amplicon-concentration depth ph 
+elevation extract-concen amplicon-concentration percentcover ph 
+elevation extract-concen depth percentcover ph 
+elevation amplicon-concentration depth percentcover ph 
+extract-concen amplicon-concentration depth percentcover ph 
+elevation extract-concen amplicon-concentration depth percentcover ph 
