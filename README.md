@@ -8,7 +8,9 @@ Github: Crear un repositorio Github. Control de versiones
 
 ## Descarga de metadatos
 
+```bash
 wget -O "sample-metadata.tsv" "https://data.qiime2.org/2023.5/tutorials/atacama-soils/sample-metadata.tsv"
+```
 
 ## Descarga de secuencias
 
