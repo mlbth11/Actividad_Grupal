@@ -1,6 +1,7 @@
 # Actividad_Grupal
 Github: Crear un repositorio Github. Control de versiones
 # Estudiantes: Masache Debora y Enriquez Martha
+## Nota: En la carpeta "Proyecto1" Se encuentran los resultados de cada etapa del proyecto
 
 # 1. 
 
