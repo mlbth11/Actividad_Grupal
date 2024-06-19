@@ -1,2 +1,2 @@
 # Actividad_Grupal
-Github: Crear un repositorio github. Control de versiones
+Github: Crear un repositorio Github. Control de versiones
