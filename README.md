@@ -61,22 +61,29 @@ qiime dada2 denoise-paired --i-demultiplexed-seqs demux.qza --p-trim-left-f 13 -
 
 ## Generación de resúmenes correspondientes
 
+```bash
 qiime feature-table summarize --i-table table.qza --o-visualization table.qzv --m-sample-metadata-file sample-metadata.tsv
 
 qiime feature-table tabulate-seqs --i-data rep-seqs.qza --o-visualization rep-seqs.qzv
 
 qiime metadata tabulate --m-input-file denoising-stats.qza --o-visualization denoising-stats.qzv
+```
 
 # 7. 
 
+```bash
 qiime phylogeny align-to-tree-mafft-fasttree --i-sequences rep-seqs.qza --o-alignment aligned-rep-seqs.qza --o-masked-alignment masked-aligned-rep-seqs.qza --o-tree unrooted-tree.qza --o-rooted-tree rooted-tree.qza
+```
 
 # 8. 
 
+```bash
 qiime diversity core-metrics-phylogenetic --i-phylogeny rooted-tree.qza --i-table table.qza --p-sampling-depth 1103 --m-metadata-file sample-metadata.tsv --output-dir core-metrics-results
+```
 
 ## Agrupación de datos para Alfa-diversidad
 
+```bash
 mkdir -p core-metrics-results/Alfa-diversity # Creo una carpeta para almacenar la información
 
 qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results/faith_pd_vector.qza --m-metadata-file sample-metadata.tsv --o-visualization core-metrics-results/Alfa-diversity/faith-pd-group-significance.qzv
@@ -86,12 +93,14 @@ qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-result
 qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results/observed_features_vector.qza --m-metadata-file sample-metadata.tsv --o-visualization core-metrics-results/Alfa-diversity/observed_features-group-significance.qzv
 
 qiime diversity alpha-group-significance --i-alpha-diversity core-metrics-results/evenness_vector.qza --m-metadata-file sample-metadata.tsv --o-visualization core-metrics-results/Alfa-diversity/evenness-group-significance.qzv
+```
 
 ## Análisis PERMANOVA de diversidad beta
 
+```bash
 mkdir -p core-metrics-results/Beta-diversity # Creo una carpeta para almacenar la información
 
-### Introduzco todas las columnas "Categóricas" del fichero de metadato en un fichero llamado column-names.txt para ejecutar todas las columnas posibles en una sóla ejecución con cada uno de los parámetros:
+# Introduzco todas las columnas "Categóricas" del fichero de metadato en un fichero llamado column-names.txt para ejecutar todas las columnas posibles en una sóla ejecución con cada uno de los parámetros:
 
 for i in $(cat core-metrics-results/column-names.txt); do qiime diversity beta-group-significance --i-distance-matrix core-metrics-results/unweighted_unifrac_distance_matrix.qza --m-metadata-file sample-metadata.tsv --m-metadata-column $i --o-visualization core-metrics-results/Beta-diversity/unweighted-unifrac-"$i"-significance.qzv --p-pairwise; done
 
@@ -100,10 +109,12 @@ for i in $(cat core-metrics-results/column-names.txt); do qiime diversity beta-g
 for i in $(cat core-metrics-results/column-names.txt); do qiime diversity beta-group-significance --i-distance-matrix core-metrics-results/bray_curtis_distance_matrix.qza --m-metadata-file sample-metadata.tsv --m-metadata-column $i --o-visualization core-metrics-results/Beta-diversity/bray_curtis-"$i"-significance.qzv --p-pairwise; done
 
 for i in $(cat core-metrics-results/column-names.txt); do qiime diversity beta-group-significance --i-distance-matrix core-metrics-results/jaccard_distance_matrix.qza --m-metadata-file sample-metadata.tsv --m-metadata-column $i --o-visualization core-metrics-results/Beta-diversity/jaccard-"$i"-significance.qzv --p-pairwise; done
+```
 
 ## Gráfico PCoA
 
-### Introduzco todas las columnas "Numéricas" del fichero de metadato en un fichero llamado column-names-numeric.txt para ejecutar todas las columnas posibles, también mencionar que se pueden hacer combinaciones de varias columnas a la vez "columna1 + columna2". Hay que tener cuidado con las columnas en las que hay valores faltantes.
+```bash
+#Introduzco todas las columnas "Numéricas" del fichero de metadato en un fichero llamado column-names-numeric.txt para ejecutar todas las columnas posibles, también mencionar que se pueden hacer combinaciones de varias columnas a la vez "columna1 + columna2". Hay que tener cuidado con las columnas en las que hay valores faltantes.
 
 for i in $(cat core-metrics-results/column-names-numeric.txt); do qiime emperor plot --i-pcoa core-metrics-results/unweighted_unifrac_pcoa_results.qza --m-metadata-file sample-metadata.tsv --p-custom-axes $i --o-visualization core-metrics-results/Beta-diversity/unweighted-unifrac-emperor-"$i".qzv; done
 
@@ -120,33 +131,44 @@ bash core-metrics-results/Beta-diversity/bray_curtis-emperor.bash # Script con l
 for i in $(cat core-metrics-results/column-names-numeric.txt); do qiime emperor plot --i-pcoa core-metrics-results/jaccard_pcoa_results.qza --m-metadata-file sample-metadata.tsv --p-custom-axes $i --o-visualization core-metrics-results/Beta-diversity/jaccard-emperor-"$i".qzv; done
 
 bash core-metrics-results/Beta-diversity/jaccard-emperor.bash # Script con la ejecución de individuales y combinadas
+```
 
 # 9. 
 
 ## Clasificación taxonómica
 
+```bash
 qiime feature-classifier classify-sklearn --i-classifier gg-13-8-99-515-806-nb-classifier.qza --i-reads rep-seqs.qza --o-classification taxonomy.qza
+```
 
 ## Tabla de taxonomía
 
+```bash
 qiime metadata tabulate --m-input-file taxonomy.qza --o-visualization taxonomy.qzv
 
 qiime taxa barplot --i-table table.qza --i-taxonomy taxonomy.qza --m-metadata-file metadata.tsv --o-visualization taxa-bar-plots.qzv
+```
 
 # 10. 
 
 ## Preparación de la tabla
 
+```bash
 qiime composition add-pseudocount --i-table table.qza --o-composition-table comp-table.qza
+```
 
 ## AMCO
 
+```bash
 for i in $(cat core-metrics-results/column-names.txt); do qiime composition ancom --i-table comp-table.qza --m-metadata-file sample-metadata.tsv --m-metadata-column $i --o-visualization AMCO/ancom-"$i".qzv; done
+```
 
 ## Agregar taxonomía
 
+```bash
 qiime taxa collapse --i-table table.qza --i-taxonomy taxonomy.qza --p-level 6 --o-collapsed-table table-l6.qza
 
 qiime composition add-pseudocount --i-table table-l6.qza --o-composition-table comp-table-l6.qza
 
 for i in $(cat core-metrics-results/column-names.txt); do qiime composition ancom --i-table comp-table-l6.qza --m-metadata-file sample-metadata.tsv --m-metadata-column $i --o-visualization AMCO/l6-ancom-"$i".qzv; done
+```
