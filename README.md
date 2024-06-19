@@ -116,7 +116,7 @@ qiime metadata tabulate --m-input-file taxonomy.qza --o-visualization taxonomy.q
 
 qiime taxa barplot --i-table table.qza --i-taxonomy taxonomy.qza --m-metadata-file metadata.tsv --o-visualization taxa-bar-plots.qzv
 
-10. Análisis diferencial de abundancia microbiana
+# 10. 
 
 ## Preparación de la tabla
 
