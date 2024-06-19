@@ -14,11 +14,13 @@ wget -O "sample-metadata.tsv" "https://data.qiime2.org/2023.5/tutorials/atacama-
 
 ## Descarga de secuencias
 
+```bash
 mkdir emp-paired-end-sequences # Creamos el directorio para las secuencias
 
 wget -O "emp-paired-end-sequences/forward.fastq.gz" "https://data.qiime2.org/2023.5/tutorials/atacama-soils/10p/forward.fastq.gz"
 wget -O "emp-paired-end-sequences/reverse.fastq.gz" "https://data.qiime2.org/2023.5/tutorials/atacama-soils/10p/reverse.fastq.gz"
 wget -O "emp-paired-end-sequences/barcodes.fastq.gz" "https://data.qiime2.org/2023.5/tutorials/atacama-soils/10p/barcodes.fastq.gz"
+```
 
 # 2. 
 
